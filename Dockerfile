@@ -4,4 +4,7 @@ RUN git clone https://github.com/pchataignier/Mask_RCNN.git \
 	&& python3 setup.py install
 WORKDIR /root/Models
 COPY preTrainedModelsList ./.preTrainedModelsList
-RUN wget -i .preTrainedModelsList
+RUN cat .preTrainedModelsList | cut -d ' ' -f 2 >> tmp \
+	&& wget -i tmp \
+	&& rm tmp \
+	&& echo 'export DOWNLOADED_MODELS_FILEPATH=/root/Models/.preTrainedModelsList' >> ~/.bashrc
